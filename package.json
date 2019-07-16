@@ -1,0 +1,12 @@
+{
+    "name": "syntax-highlight-awn",
+    "version": "0.1.0",
+    "description": "Syntax highlighting for note style awn",
+    
+    "license": "MIT",
+    "engines":
+    {
+        "atom": "*",
+        "node": "*"
+    }
+}

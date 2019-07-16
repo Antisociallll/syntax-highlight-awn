@@ -1,0 +1,140 @@
+﻿'scopeName': 'source.awn'
+'name': 'As Written Notes'
+'fileTypes': ['awn']
+'patterns':[
+    # {
+    #   'include': 'source.js.meta'
+    # }
+    # {
+    #     'match': '\\b[0-9]+\\b'
+    #     'name': 'constant.numeric'
+    # }
+    # {
+    #     'captures':
+    #         '1':
+    #             'name': 'keyword'
+    #         '2':
+    #             'name': 'keyword'
+    #         '3':
+    #             'name': 'keyword'
+    #     # 'match': '(\\[)(.+：)[\\s\\S]*(])'
+    #     'match': '(\\[)(.+：)[\\S]*?(])'
+    # }
+    {
+        'match': '(#+)([0-9]+\\..+)'
+        # 'name': 'meta.class'
+        'captures':
+            '1':
+                'name': 'comment'
+            '2':
+                'name': 'meta.class'
+    }
+    # 术语
+    {
+        'match': '".*"'
+        'name': 'string'
+    }
+    # 强调
+    {
+        'match': '`([^`]*)`'
+        'captures':
+            '1':
+                'name': 'entity.name.tag'
+    }
+    # 弱化（行内）
+    {
+        'match': '\\/\\/.*$'
+        'name': 'comment'
+    }
+    # 弱化（行内） - 试行
+    {
+        # 只适用于其中没有空格的弱化字串
+        'match': '[ \\t]*([^ \\t]*)   $'
+        'captures':
+            '1':
+                'name': 'comment'
+    }
+    # 主题
+    {
+        'match': '^(\\s+)[0-9]+\\.[^//]+'
+        'name': 'constant'
+    }
+    # 域层级标识
+    {
+        'match': '\\s*(【.+：)'
+        'captures':
+            '1':
+                'name': 'keyword'
+    }
+    {
+        'match': '】 [^ ]$'
+        'name': 'keyword'
+    }
+    # 域层级标签
+    {
+        'match': '【待补】$'
+        'name': 'keyword'
+    }
+    # 块层级标签
+    {
+        'match': '\\[概括]$'
+        'name': 'keyword'
+    }
+    # 块层级标识
+    {
+        'match': '\\s*(\\[.+：)'
+        'captures':
+            '1':
+                'name': 'keyword'
+    }
+    {
+        # 规定‘]’前方必须为空，这样普通使用的时候也不会冲突
+        'match': '(^|[ \\t]+)\\] [^ ]$'
+        # 'match': '(^|[ \\t]+)|(.*：.*)\\] [^ ]$'
+        'name': 'keyword'
+    }
+    {
+        # 右方括号补偿（暂行）
+        'match': '.*(\\]) $'
+        'captures':
+            '1':
+                'name': 'keyword'
+    }
+    # 内容关键字（键形式）
+    {
+        # 忽略句尾虚词
+        # 'match': '[^ \\t\\v\\n\\r\\f]*[^即为如于有是了说设(以下)(如下)(包括)(其中)(组成)(构成)]+：'
+        # 'match': '[^ \\t\\v\\n\\r\\f]*[^(即|为|如|于|有|是|了|说|设|(以下)|(如下)|(包括)|(其中)|(组成)|(构成))]+：'
+        'match': '[^ \\t\\v\\n\\r\\f|即|为|如|于|有|是|了|说|设|以下|如下|包括|其中|组成|求]+：'
+        'name': 'entity.name.function'
+    }
+    # # 关键字补偿
+    # {
+    #     'match': '\\s*结构：$'
+    #     'name': 'entity.name.function'
+    # }
+    # # 内容关键字（键形式） - 试验田
+    # {
+    #     'match': '[ \\t]*([^ \\t\\v\\n\\r\\f即为如于有是了说设(以下)(如下)(包括)(其中)(组成)(构成)]+?：)'
+    #     'captures':
+    #         '1':
+    #             'name': 'entity.name.function'
+    # }
+    # 内容关键字（默认的）
+    {
+        'match': 'e\\.g\\.'
+        'name': 'entity.name.function'
+    }
+    # 文档签名
+    {
+        'match': '>>>>.*'
+        'name': 'support.function'
+    }
+    # 链接
+    {
+        'match': 'http:.*|https:.*'
+        'name': 'markup.link.underline'
+    }
+]
+
+'fileTypes': ['awn']
