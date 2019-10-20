@@ -2,37 +2,51 @@
 'name': 'As Written Notes'
 'fileTypes': ['awn']
 'patterns':[
-    # {
-    #   'include': 'source.js.meta'
-    # }
-    # {
-    #     'match': '\\b[0-9]+\\b'
-    #     'name': 'constant.numeric'
-    # }
-    # {
-    #     'captures':
-    #         '1':
-    #             'name': 'keyword'
-    #         '2':
-    #             'name': 'keyword'
-    #         '3':
-    #             'name': 'keyword'
-    #     # 'match': '(\\[)(.+：)[\\s\\S]*(])'
-    #     'match': '(\\[)(.+：)[\\S]*?(])'
-    # }
+     #章节
     {
-        'match': '(#+)([0-9]+\\..+)'
-        # 'name': 'meta.class'
-        'captures':
-            '1':
-                'name': 'comment'
-            '2':
-                'name': 'meta.class'
+        match: '^\\s*(#+)([0-9]+\\.\\s*( {0,1}\\S+)+)'
+        captures:
+            1:
+                name: 'comment'
+            2:
+                name: 'meta.class'
+    }
+    # 主题
+    {
+        # 'match': '^(\\s+)[0-9]+\\.[^[\\s\\/\\/]]+'
+        match: '^\\s*[0-9]+\\.\\s*( {0,1}\\S+)+'
+        name: 'constant'
+    }
+    # 属性
+    {
+       # 因为属性有结尾全角冒号作分割，所以不需要像章节、主题那样麻烦的用空格数判断结束
+        match: '^\\s*([^即为如于有是了说设求]+|[^以][^下]|[^如][^下])：'
+        name: 'entity.name.function'
+    }
+    # 行内弱化 - 彻底的
+    {
+        match: '\\/\\/.*$'
+        name: 'comment'
+    }
+    # 行内弱化 - 仅最后一个连续字串
+    {
+        # 仅弱化前方的一个完整连续字串，以二个空格为结束
+        'match': '\\S+  $'
+        'name': 'comment'
+    }
+    # 行内弱化 - 允许一个空格
+    {
+        # 以多于两个空格为开始边界，三个空格为结束
+        # 可以推广为：对前方含n个连续空格的字串弱化，就是在结尾打n+2个空格
+        'match': '( {2,})*(\\S+ {0,1})+   $'
+        'name': 'comment'
     }
     # 术语
     {
-        'match': '".*"'
-        'name': 'string'
+        'match': '"([^"]*)"'
+        'captures':
+            '1':
+                'name': 'string'
     }
     # 强调
     {
@@ -40,24 +54,6 @@
         'captures':
             '1':
                 'name': 'entity.name.tag'
-    }
-    # 弱化（行内）
-    {
-        'match': '\\/\\/.*$'
-        'name': 'comment'
-    }
-    # 弱化（行内） - 试行
-    {
-        # 只适用于其中没有空格的弱化字串
-        'match': '[ \\t]*([^ \\t]*)   $'
-        'captures':
-            '1':
-                'name': 'comment'
-    }
-    # 主题
-    {
-        'match': '^(\\s+)[0-9]+\\.[^//]+'
-        'name': 'constant'
     }
     # 域层级标识
     {
@@ -88,7 +84,7 @@
                 'name': 'keyword'
     }
     {
-        # 规定‘]’前方必须为空，这样普通使用的时候也不会冲突
+        # 规定‘]’前方必须为空，这样正常使用的时候也不会冲突
         'match': '(^|[ \\t]+)\\] [^ ]$'
         # 'match': '(^|[ \\t]+)|(.*：.*)\\] [^ ]$'
         'name': 'keyword'
@@ -100,26 +96,6 @@
             '1':
                 'name': 'keyword'
     }
-    # 内容关键字（键形式）
-    {
-        # 忽略句尾虚词
-        # 'match': '[^ \\t\\v\\n\\r\\f]*[^即为如于有是了说设(以下)(如下)(包括)(其中)(组成)(构成)]+：'
-        # 'match': '[^ \\t\\v\\n\\r\\f]*[^(即|为|如|于|有|是|了|说|设|(以下)|(如下)|(包括)|(其中)|(组成)|(构成))]+：'
-        'match': '[^ \\t\\v\\n\\r\\f|即|为|如|于|有|是|了|说|设|以下|如下|包括|其中|组成|求]+：'
-        'name': 'entity.name.function'
-    }
-    # # 关键字补偿
-    # {
-    #     'match': '\\s*结构：$'
-    #     'name': 'entity.name.function'
-    # }
-    # # 内容关键字（键形式） - 试验田
-    # {
-    #     'match': '[ \\t]*([^ \\t\\v\\n\\r\\f即为如于有是了说设(以下)(如下)(包括)(其中)(组成)(构成)]+?：)'
-    #     'captures':
-    #         '1':
-    #             'name': 'entity.name.function'
-    # }
     # 内容关键字（默认的）
     {
         'match': 'e\\.g\\.'
